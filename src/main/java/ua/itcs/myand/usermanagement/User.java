@@ -32,8 +32,7 @@ public Date getDateOfBirthd() {
 public void setDateOfBirthd(Date dateOfBirthd) {
 	this.dateOfBirthd = dateOfBirthd;
 }
-public Object getFullName() {
-	// TODO Auto-generated method stub
-	return null;
+public Object getFullName() {	
+	return getLastName() + ", " + getFirstName();
 }
 }
