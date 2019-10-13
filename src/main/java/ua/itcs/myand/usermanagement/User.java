@@ -35,4 +35,7 @@ public void setDateOfBirthd(Date dateOfBirthd) {
 public Object getFullName() {	
 	return getLastName() + ", " + getFirstName();
 }
+public int getAge() {
+	return 0;
+}
 }
