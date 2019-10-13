@@ -1,6 +1,7 @@
 package ua.itcs.myand.usermanagement;
 
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class User {
@@ -36,6 +37,11 @@ public Object getFullName() {
 	return getLastName() + ", " + getFirstName();
 }
 public int getAge() {
-	return 0;
+	Calendar calendar = Calendar.getInstance();
+	calendar.setTime(new Date() );
+	int currentYear = calendar.get(Calendar.YEAR);
+	calendar.setTime(getDateOfBirthd() );
+	int year = calendar.get (Calendar.YEAR);
+	return currentYear - year;
 }
 }
