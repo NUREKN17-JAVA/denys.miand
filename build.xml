@@ -1,17 +1,34 @@
-<project name="usermanagement" basedir="." default="compile"> 
+<project name="usermanagement" basedir="." default="test"> 
 	
-	<property name="main-java-dir" value="$(basedir)/src/main/java"/>
-	<property name="build-dir" value ="$(basedir)/bin"/>
+	<property name="main-java-dir" value="${basedir}/src/main/java"/>
+	<property name="test-java-dir" value="${basedir}/src/test/java"/>
+	<property name="build-dir" value ="${basedir}/bin"/>
+	<property name="classes-dir" value="${build-dir}"/>
 	
 	<target name="clean">
-		<delete dir="$(build-dir)"/>
+		<delete dir="${build-dir}"/>
 	</target>	
 	
 	<target name="init">
-		<mkdir dir="$(build-dir)"/>
+		<mkdir dir="${build-dir}"/>
 	</target>	
 	
 	<target name="compile" depends="init">
-		<javac includeantruntime="false" srcdir="$(main-java-dir)" destdir="$(build-dir)"/>
+		<javac includeantruntime="false" srcdir="${main-java-dir}" destdir="${build-dir}"/>
 	</target>
+	
+	<target name="test-compile" depends="init">
+		<javac includeantruntime="false" srcdir="${test-java-dir}" destdir="${build-dir}"/>
+	</target>
+	
+	<target name="test" depends="test-compile">
+		<junit>
+			<classpath>
+				<pathelement location="${build-dir}"/>
+			</classpath>
+			<formatter type="plain"/>
+			<test name="ua.itcs.myand.usermanagement"/>
+		</junit>
+	</target>
+	
 </project>
