@@ -43,7 +43,7 @@ public class UserTest extends TestCase {
 		user.setDateOfBirthd(calendar.getTime());
 		int actual_age = user.getAge();
 		assertEquals(EXPECTED_AGE, actual_age);
-	}
+	}	
 	public void testAgeTomorrowsBirthday() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(YEAR_OF_BIRTH, calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
