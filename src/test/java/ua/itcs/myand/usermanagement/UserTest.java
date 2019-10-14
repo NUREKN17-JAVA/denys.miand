@@ -11,7 +11,7 @@ public class UserTest extends TestCase {
 	private static final int DAY_OF_BIRTH = 13;
 	private static final int MONTH_OF_BIRTH = 8;
 	private static final int YEAR_OF_BIRTH = 1999;
-	
+	private static final int NEXT_DAY_OF_BIRTH = 14;
 	
 	private User user;
 	private Date dateOfBirthd;
@@ -52,4 +52,11 @@ public class UserTest extends TestCase {
 		int actual_age = user.getAge();
 		assertEquals(EXPECTED_AGE, actual_age);
 	}
+	  public void testGetAgeNextDay() {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.set(YEAR_OF_BIRTH, MONTH_OF_BIRTH, NEXT_DAY_OF_BIRTH);
+	    user.setDateOfBirthd(calendar.getTime());
+	    assertEquals(EXPECTED_AGE, user.getAge());
+	}
+	
 }
