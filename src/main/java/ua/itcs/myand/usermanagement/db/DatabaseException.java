@@ -1,5 +1,6 @@
 package ua.itcs.myand.usermanagement.db;
 
+
 public class DatabaseException extends Exception {
 
 	/**

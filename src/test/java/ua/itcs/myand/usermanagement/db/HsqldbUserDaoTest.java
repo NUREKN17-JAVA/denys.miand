@@ -39,8 +39,8 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
 	public void testFindAll() {
 		try {
 			Collection collection = dao.findAll();
-			assertNotNull(collection);
-			assertEquals(2, collection.size());
+			assertNotNull("Collection is null", collection);
+			assertEquals("Collection size.", 2, collection.size());
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 			fail(e.toString());
