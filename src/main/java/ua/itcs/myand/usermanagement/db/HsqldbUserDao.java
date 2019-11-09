@@ -1,8 +1,10 @@
 package ua.itcs.myand.usermanagement.db;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
@@ -29,6 +31,12 @@ public class HsqldbUserDao implements UserDao {
 			if (n != 1) {
 				throw new DatabaseException("Number of the inserted rows: " + n);
 			}
+			CallableStatement callableStatement = connection.prepareCall("call IDENTITY()");
+			ResultSet keys = callableStatement.executeQuery();
+			if(keys.next()) {
+				user.setId(new Long(keys.getLong(1)));
+			}
+				
 			return null;
 		} catch (DatabaseException e) {
 			throw e;
