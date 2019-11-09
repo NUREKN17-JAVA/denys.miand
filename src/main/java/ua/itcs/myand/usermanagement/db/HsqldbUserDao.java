@@ -23,7 +23,8 @@ public class HsqldbUserDao implements UserDao {
 	public User create(User user) throws DatabaseException {
 		try {
 			Connection connection = connectionFactory.createConnection();
-			PreparedStatement statement = connection.prepareStatement(INSERT_QUERY);
+			PreparedStatement statement = connection
+					.prepareStatement(INSERT_QUERY);
 			statement.setString(1, user.getFirstName());
 			statement.setString(2, user.getLastName());
 			statement.setDate(3, new Date(user.getDateOfBirthd().getTime()));
@@ -44,7 +45,7 @@ public class HsqldbUserDao implements UserDao {
 		} catch (DatabaseException e) {
 			throw e;
 		} catch (SQLException e) {
-			throw new DatabaseException();
+			throw new DatabaseException(e);
 		}
 	}
 
