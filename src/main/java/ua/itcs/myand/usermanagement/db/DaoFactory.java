@@ -5,6 +5,7 @@ import java.util.Properties;
 
 public class DaoFactory {
 	
+	private static final String USER_DAO = "dao.ua.itcs.myand.usermanagement.db.UserDao";
 	private final Properties properties;
 
 	public DaoFactory () {
@@ -27,7 +28,13 @@ public class DaoFactory {
 	
 	public UserDao getUserDao() {
 		UserDao result = null;
-		
+		try {
+			Class clazz = Class.forName(properties.getProperty(USER_DAO));
+			UserDao userDao = (UserDao) clazz.newInstance();
+			userDao.setConnectionFactory(getConnectionFactory());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 		return result;
 	}
 }
