@@ -1,4 +1,5 @@
-<Dataset>
+  
+<dataset>
 	<table name="users">
 		<column>id</column>
 		<column>firstname</column>
@@ -6,15 +7,15 @@
 		<column>dateofbirth</column>
 		<row>
 			<value>1000</value>
-			<value>Denis</value>
-			<value>Myand</value>
-			<value>1999-08-13</value>
+			<value>Bill</value>
+			<value>Gates</value>
+			<value>1968-04-26</value>
 		</row>
-		<row>
+				<row>
 			<value>1001</value>
-			<value>Julia</value>
-			<value>Myand</value>
-			<value>1982-08-15</value>
+			<value>George</value>
+			<value>Bush</value>
+			<value>1949-08-17</value>
 		</row>
 	</table>
-</Dataset>
+</dataset>
