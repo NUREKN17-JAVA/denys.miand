@@ -3,6 +3,7 @@ package ua.itcs.myand.usermanagement.gui;
 import java.awt.Component;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -14,6 +15,9 @@ import junit.extensions.jfcunit.JFCTestHelper;
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.eventdata.StringEventData;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
+import ua.itcs.myand.usermanagement.db.DaoFactory;
+import ua.itcs.myand.usermanagement.db.DaoFactoryImpl;
+import ua.itcs.myand.usermanagement.db.MockUserDao;
 import ua.itcs.myand.usermanagement.util.Messages;
 
 public class MainFrameTest extends JFCTestCase {
@@ -22,8 +26,22 @@ public class MainFrameTest extends JFCTestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
+		try {
+		Properties properties = new Properties();
+		properties.setProperty(
+				"ua.itcs.myand.usermanagement.db.UserDao", 
+				MockUserDao.class.getName());
+		DaoFactory.getInstance().init(properties);
+		properties.setProperty("dao.factory", DaoFactoryImpl.class
+				.getName());
+		DaoFactory.init(properties);
+		
 		setHelper(new JFCTestHelper());
 		mainFrame = new MainFrame();
+		
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		mainFrame.setVisible(true);
 	}
 
@@ -46,9 +64,12 @@ public class MainFrameTest extends JFCTestCase {
 		find(JPanel.class, "browsePanel");
 		JTable table = (JTable) find(JTable.class, "userTable");
 		assertEquals(3, table.getColumnCount());
-		assertEquals(Messages.getString("UserTableModel.id"), table.getColumnName(0));
-		assertEquals(Messages.getString("UserTableModel.first_name"), table.getColumnName(1));
-		assertEquals(Messages.getString("UserTableModel.last_name"), table.getColumnName(2));
+		assertEquals(Messages.getString("UserTableModel.id"),
+				table.getColumnName(0));
+		assertEquals(Messages.getString("UserTableModel.first_name"),
+				table.getColumnName(1));
+		assertEquals(Messages.getString("UserTableModel.last_name"), 
+				table.getColumnName(2));
 		
 		find(JButton.class, "addButton");
 		find(JButton.class, "editButton");
