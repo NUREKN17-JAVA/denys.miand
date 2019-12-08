@@ -2,6 +2,7 @@ package ua.itcs.myand.usermanagement.gui;
 
 import java.awt.Component;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 
@@ -10,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.mockobjects.dynamic.Mock;
+
 import junit.extensions.jfcunit.JFCTestCase;
 import junit.extensions.jfcunit.JFCTestHelper;
 import junit.extensions.jfcunit.eventdata.MouseEventData;
@@ -17,6 +20,7 @@ import junit.extensions.jfcunit.eventdata.StringEventData;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
 import ua.itcs.myand.usermanagement.db.DaoFactory;
 import ua.itcs.myand.usermanagement.db.DaoFactoryImpl;
+import ua.itcs.myand.usermanagement.db.MockDaoFactory;
 import ua.itcs.myand.usermanagement.db.MockUserDao;
 import ua.itcs.myand.usermanagement.util.Messages;
 
@@ -24,18 +28,20 @@ public class MainFrameTest extends JFCTestCase {
 
 	private MainFrame mainFrame;
 
+	private Mock mockUserDao;
+	
 	protected void setUp() throws Exception {
 		super.setUp();
 		try {
 		Properties properties = new Properties();
-		properties.setProperty(
-				"ua.itcs.myand.usermanagement.db.UserDao", 
-				MockUserDao.class.getName());
+		
 		DaoFactory.getInstance().init(properties);
-		properties.setProperty("dao.factory", DaoFactoryImpl.class
+		properties.setProperty("dao.factory", MockDaoFactory.class
 				.getName());
 		DaoFactory.init(properties);
-		
+		mockUserDao = ((MockDaoFactory) DaoFactory.getInstance())
+				.getMockUserDao();
+		mockUserDao.expectAndReturn("findAll", new ArrayList());
 		setHelper(new JFCTestHelper());
 		mainFrame = new MainFrame();
 		
@@ -46,9 +52,14 @@ public class MainFrameTest extends JFCTestCase {
 	}
 
 	protected void tearDown() throws Exception {
-		mainFrame.setVisible(false);
-		getHelper().cleanUp(this);
-		super.tearDown();
+		try {
+			mockUserDao.verify();
+			mainFrame.setVisible(false);
+			getHelper().cleanUp(this);
+			super.tearDown();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private Component find(Class componentClass, String name) {
