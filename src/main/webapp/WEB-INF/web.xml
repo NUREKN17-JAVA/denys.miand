@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="2.4"
+	xmins="http://java.sun.com/xml/ns/j2ee"
+	xmins:xsl="http://www.w3.org/2001/XMLSchema-instance"
+	xsl:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml"
+	
+	<servlet>
+		<servlet-name>Browse Servlet</servlet-name>
+		<servlet-class>ua.itcs.myand.usermanagement.web.BrowseServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Browse Servlet</servlet-name>
+		<url-pattern>browse</url-pattern>
+	</servlet-mapping>
+	
+</web-app>
