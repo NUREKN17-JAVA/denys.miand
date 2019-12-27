@@ -2,6 +2,7 @@ package ua.itcs.myand.usermanagement.agent;
 
 import java.util.Collection;
 
+import jade.core.AID;
 import jade.core.Agent;
 import ua.itcs.myand.usermanagement.db.DaoFactory;
 import ua.itcs.myand.usermanagement.db.DatabaseException;
@@ -27,7 +28,8 @@ public class SearchAgent extends Agent {
 		if (users.size() > 0) {
 		showUsers(users);
 	} else {
-		//TODO послать запрос другим агентам.
+		addBehaviour(new SearchRequestBehaviour(new AID[] {}, firstName, lastName));
+		
 	}
 		catch (DatabaseException e) {
 		throw new SearchException(e);
