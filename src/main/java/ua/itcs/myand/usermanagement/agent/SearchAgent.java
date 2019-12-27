@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -13,6 +14,7 @@ import ua.itcs.myand.usermanagement.db.DatabaseException;
 
 public class SearchAgent extends Agent {
 
+	private AID[] aids;
 	
 	protected void setup() {
 		super.setup();
@@ -29,6 +31,30 @@ public class SearchAgent extends Agent {
 		} catch (FIPAException e) {
 			e.printStackTrace();
 		}
+		
+		
+		addBehaviour (new TickerBehaviour(this, 60000) {
+			
+
+			protected void onTick() {
+				DFAgentDescription agentDescription = new DFAgentDescription();
+				ServiceDescription serviceDescription = new ServiceDescription();
+				serviceDescription.setType("searching");
+				agentDescription.addServices(serviceDescription);
+				try {
+					DFAgentDescription[] descriptions =
+							DFService.search(myAgent, agentDescription);
+					aids = new AID[descriptions.length];
+					for(int i = 0; i < descriptions.length; i++ ) {
+						DFAgentDescription d = descriptions [i];
+						aids [i] = d.getName();
+					}
+				} catch (FIPAException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		addBehaviour(new RequestServer());
 		
 	}
@@ -52,7 +78,7 @@ public class SearchAgent extends Agent {
 		if (users.size() > 0) {
 		showUsers(users);
 	} else {
-		addBehaviour(new SearchRequestBehaviour(new AID[] {}, firstName, lastName));
+		addBehaviour(new SearchRequestBehaviour(aids, firstName, lastName));
 		
 	}
 		catch (DatabaseException e) {
